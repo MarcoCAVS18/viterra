@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import ShareButton from './ShareButton';
 
 function List({ hours }) {
   const BASE_RATE = 30.89;
@@ -8,6 +9,8 @@ function List({ hours }) {
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [tax, setTax] = useState(0);
   const [earningsAfterTax, setEarningsAfterTax] = useState(0);
+
+  const listRef = useRef(null);
 
   const calculateDailyEarnings = (day, hoursWorked) => {
     let earnings = 0;
@@ -50,7 +53,7 @@ function List({ hours }) {
   }, [hours]);
 
   return (
-    <div className="w-full max-w-md mt-8 bg-bgGray p-6 rounded-xl shadow-md">
+    <div ref={listRef} className="w-full max-w-md mt-8 bg-bgGray p-6 rounded-xl shadow-md">
       <h2 className="text-xl font-semibold mb-4">Earnings Summary</h2>
       <ul>
         {completedDays.map((item, index) => (
@@ -76,6 +79,7 @@ function List({ hours }) {
           </>
         )}
       </ul>
+      <ShareButton targetRef={listRef} />
     </div>
   );
 }
